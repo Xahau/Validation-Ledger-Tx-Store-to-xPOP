@@ -1,4 +1,5 @@
-# Validation ledger & tx store
+# Validation Ledger & Transaction Store
+## To generate xPOPs
 
 Watcher that connects to multiple nodes & listens for validation messages, closed ledgers & transactions, and stores all of it in an organised file system data structure for xPOP 
 generation.
