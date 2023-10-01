@@ -16,6 +16,8 @@ process.env.NODES.split(',').map(h => h.trim())
 
     /**
      * TODO: Auto disconnect if no messages for X
+     * TODO: Generate xPOPs for matching transactions
+     *       based on FIELDSREQUIRED="Fee,OperationLimit"
      */
 
     c.send({ command: "subscribe", streams: [
