@@ -1,7 +1,7 @@
 import { XrplClient } from 'xrpl-client'
 import { createDirectory } from './lib/createDirectory.mjs'
 import { onValidation } from './lib/onValidation.mjs'
-// import { onLedger } from './lib/onLedger.mjs'
+import { onLedger } from './lib/onLedger.mjs'
 // import { onTransaction } from './lib/onTransaction.mjs'
 import 'dotenv/config'
 import assert from 'assert'
@@ -20,7 +20,7 @@ process.env.NODES.split(',').map(h => h.trim())
 
     c.send({ command: "subscribe", streams: [
       "validations",
-      // "ledger",
+      "ledger",
       // "transactions",
       // "transactions_proposed"
     ] })
@@ -31,12 +31,12 @@ process.env.NODES.split(',').map(h => h.trim())
       validation,
     }))
 
-    // c.on("ledger", ledger => onLedger({
-    //   connectionUrl: c.getState()?.server?.uri,
-    //   networkId: c.getState()?.server?.networkId,
-    //   ledger,
-    //   connection: c,
-    // }))
+    c.on("ledger", ledger => onLedger({
+      connectionUrl: c.getState()?.server?.uri,
+      networkId: c.getState()?.server?.networkId,
+      ledger,
+      connection: c,
+    }))
 
     // c.on("transaction", transaction => onTransaction({
     //   connectionUrl: c.getState()?.server?.uri,
