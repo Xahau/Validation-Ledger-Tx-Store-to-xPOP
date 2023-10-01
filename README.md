@@ -28,7 +28,5 @@ Every folder will contain the following files:
 - `ledger_info.json` with the regular `ledger` command output
 - `vl.json` with the UNL validator list (signature checked)
 - `validation_{signing pubkey}.json`, e.g. `validation_n9McDrz9tPujrQK3vMXJXzuEJv1B8UG3opfZEsFA8t6QxdZh1H6m.json`
-
---- Todo
-
-- (TODO) Transactions
+- `tx_{tx hash}.json`, e.g. `tx_FFDEADBEEF64F423CB4B317370F9B40645BA9D5646B47837FDC74B8DCAFEBABE.json`
+- (Optional, if all info was present) `xpop_{tx hash}.json`
