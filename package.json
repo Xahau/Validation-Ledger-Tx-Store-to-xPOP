@@ -4,7 +4,8 @@
   "description": "Store XRPL Proof of Validation messages",
   "main": "index.mjs",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "xpopdev": "source .env && nodemon --max-old-space-size=20 ."
   },
   "author": "Wietse Wind <w@xrpl-labs.com>",
   "license": "MIT",
