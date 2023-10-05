@@ -12,7 +12,10 @@ Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
 This tool creates a folder structore in the `./store` directory, where it creates sub-directories like this:
 
-> `store / {networkid} / {ledgerno(0, -6)} / {ledgerno(-6, -3)} / {ledgerno(-3)} /`
+> `store / {networkid} / {ledgerpath///} /`
+
+The `ledgerpath` is the ledger index chunked from right to left in sections of three digits, making sure there
+are max. 1000 subfolders per level. This allows for easy dir listing & cleaning.
 
 So e.g. for NetworkId `21338`, ledger index `82906790`, the path would be:
 
@@ -37,3 +40,30 @@ Every folder will contain the following files:
 `npm run dev` to launch (verbose)
 `npm run xpopgen` to launch, less verbose
 
+## Webserver
+
+This script also runs a webserver is the env. var is provided for the TCP port & URL Prefix where the app will run:
+
+```bash
+EVENT_SOCKET_PORT="3000"
+URL_PREFIX="https://4849bf891e06.ngrok.app"
+```
+
+#### WebSocket
+
+You can listen for xPOP publish events (live, so you don't hve to poll).
+
+By default you will get all xPOP events. If you want to filter on a specific address, provide
+the r-address in the URL path. If you also want to receive the xPOP Blob, also provide `/blob` in the URL path.
+
+E.g. `/blob/rwietsevLFg8XSmG3bEZzFein1g8RBqWDZ` would listen for xPOPs for account `rwietsevLFg8XSmG3bEZzFein1g8RBqWDZ`
+and serve the (hex encoded) xPOP in the `xpop.blob` property.
+
+#### HTTP File Browser
+
+On the HTTP port a file listing is also provided & xPOPs can be downloaded at `/xpop/{tx hash}`.
+
+Original source files to reconstruct the xPOP locally can be downloaded at `/{networkid}/`.
+
+This file browser is for development and test purposes only, for production, put a static webserver
+in front of this application & reverse proxy only the WebSocket (HTTP Upgrade) server.

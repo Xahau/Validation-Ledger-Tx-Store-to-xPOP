@@ -5,7 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "dev": "nodemon .",
-    "xpopdev": "source .env && nodemon --max-old-space-size=50 .",
+    "xpopdev": "source .env && nodemon --max-old-space-size=40 .",
     "serve": "serve ./store/"
   },
   "author": "Wietse Wind <w@xrpl-labs.com>",
@@ -20,12 +20,20 @@
     "dotenv": "^16.3.1",
     "ed25519": "^0.0.5",
     "elliptic": "^6.5.4",
+    "express-ws": "^5.0.2",
+    "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
     "ripple-address-codec": "^4.3.0",
     "ripple-binary-codec": "^1.10.0",
+    "serve-index": "^1.9.1",
+    "ws": "^8.14.2",
     "xrpl-client": "^2.2.0"
   },
   "devDependencies": {
     "serve": "^14.2.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.3"
   }
 }
