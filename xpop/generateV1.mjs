@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { xpop } from './xpopV1.mjs'
-import { readFile, readdir } from 'fs'
+import { writeFile, readFile, readdir } from 'fs'
 import { ledgerIndexToFolders } from '../lib/ledgerIndexToFolders.mjs'
 import { dirExists } from '../lib/dirExists.mjs'
 
@@ -60,8 +60,19 @@ const generateV1 = async ({
         Promise.all(validationFiles.map(f => catjson(relativeStorDir + '/' + f))),
         catjson(relativeStorDir + '/tx_' + txHash + '.json'),
       ])
+
+      const xpopJson = await xpop({ vl, ledger: { json, binary, }, validations, tx, })
+      const xpopFilename = 'xpop_' + txHash + '.json'
+
+      writeFile(storeDir + '/' + xpopFilename, Buffer.from(xpopJson, 'utf8'), err => {
+        if (err) {
+          console.log('   !!!->> Error writing xpop-file @ ' + storeDir)
+        } else {
+          console.log('   ---->> xPOP stored @ ' + relativeStorDir + '/' + xpopFilename + ', strlen: ' + xpopJson.length)
+        }
+      })
       
-      return await xpop({ vl, ledger: { json, binary, }, validations, tx, })
+      return Buffer.from(xpopJson, 'utf-8').toString('hex')
     } catch (e) {
       console.log(e)
       throw new Error('Not all files required for xPOP generation found')

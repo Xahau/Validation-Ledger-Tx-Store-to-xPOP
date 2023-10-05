@@ -10,13 +10,6 @@ const xpop = async ({
   validations,
   tx,
 }) => {
-  // console.log(vl, json, binary, validations, tx)
-
-  // console.log(json)
-  // console.log(tx)
-
-  const x = {}
-
   const proof = create_proof(binary?.transactions, tx?.transaction?.hash)
   const computed_transactions_root = hash_proof(proof)
 
@@ -61,12 +54,7 @@ const xpop = async ({
     }
   }
 
-  const xpopJson = JSON.stringify(xpopObj)
-  const xpopHex = Buffer.from(xpopJson, 'utf-8').toString('hex')
-
-  // TODO: STORE
-
-  return xpopHex
+  return JSON.stringify(xpopObj)
 }
 
 export {
