@@ -5,7 +5,8 @@
   "main": "index.mjs",
   "scripts": {
     "dev": "nodemon .",
-    "xpopdev": "source .env && nodemon --max-old-space-size=20 ."
+    "xpopdev": "source .env && nodemon --max-old-space-size=50 .",
+    "serve": "serve ./store/"
   },
   "author": "Wietse Wind <w@xrpl-labs.com>",
   "license": "MIT",
@@ -23,5 +24,8 @@
     "ripple-address-codec": "^4.3.0",
     "ripple-binary-codec": "^1.10.0",
     "xrpl-client": "^2.2.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
   }
 }

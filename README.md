@@ -30,3 +30,10 @@ Every folder will contain the following files:
 - `validation_{signing pubkey}.json`, e.g. `validation_n9McDrz9tPujrQK3vMXJXzuEJv1B8UG3opfZEsFA8t6QxdZh1H6m.json`
 - `tx_{tx hash}.json`, e.g. `tx_FFDEADBEEF64F423CB4B317370F9B40645BA9D5646B47837FDC74B8DCAFEBABE.json`
 - `xpop_{tx hash}.json` for the generated xPOP (in JSON format)
+
+## Helper scripts
+
+`npm run serve` to launch a webserver for the `store` dir
+`npm run dev` to launch (verbose)
+`npm run xpopgen` to launch, less verbose
+
