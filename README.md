@@ -65,5 +65,9 @@ On the HTTP port a file listing is also provided & xPOPs can be downloaded at `/
 
 Original source files to reconstruct the xPOP locally can be downloaded at `/{networkid}/`.
 
+When visiting the `/{networkid}/` route, you'll be presented a dirlisting. When visiting with the HTTP
+header `Accept: application/json` you will be presented a dirlisting & file browser in JSON format
+for automation.
+
 This file browser is for development and test purposes only, for production, put a static webserver
 in front of this application & reverse proxy only the WebSocket (HTTP Upgrade) server.

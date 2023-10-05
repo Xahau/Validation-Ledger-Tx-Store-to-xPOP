@@ -20,12 +20,12 @@
     "dotenv": "^16.3.1",
     "ed25519": "^0.0.5",
     "elliptic": "^6.5.4",
+    "express-autoindex": "^1.4.2",
     "express-ws": "^5.0.2",
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
     "ripple-address-codec": "^4.3.0",
     "ripple-binary-codec": "^1.10.0",
-    "serve-index": "^1.9.1",
     "ws": "^8.14.2",
     "xrpl-client": "^2.2.0"
   },

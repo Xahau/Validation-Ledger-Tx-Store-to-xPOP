@@ -2,7 +2,7 @@ import { WebSocket } from 'ws'
 import morgan from 'morgan'
 import express from 'express'
 import expressWs from 'express-ws'
-import serveIndex from 'serve-index'
+import autoindex from 'express-autoindex/dist/index.cjs.js'
 import 'dotenv/config'
 
 let wss // WebSocket Server
@@ -13,7 +13,10 @@ if (!wss) {
     
     try {
       const app = express()
+
       app.enable('trust proxy')
+      app.disable('x-powered-by')
+      app.use(express.json())
       app.use(morgan('combined', { }))
 
       wss = expressWs(app)
@@ -25,7 +28,7 @@ if (!wss) {
       app.use('/', express.static('./store/'))
 
       app.use('/:networkId([0-9]{1,})', (req, res, next) => {
-        return serveIndex('./store/' + req.params.networkId + '/', { icons: false })(req, res,  next)
+        return autoindex('./store/' + req.params.networkId + '/', { json: /application\/json/.test(req.get('accept')) })(req, res,  next)
       })
       
       // app.get('/', function route (req, res, next){
