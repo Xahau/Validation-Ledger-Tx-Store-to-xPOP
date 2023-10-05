@@ -71,3 +71,16 @@ for automation.
 
 This file browser is for development and test purposes only, for production, put a static webserver
 in front of this application & reverse proxy only the WebSocket (HTTP Upgrade) server.
+
+#### Monitoring
+
+A health check endpoint lives on `/health`, and returns e.g.:
+
+```json
+{  
+    "uptime": 44023,
+    "lastLedger": 41800244,
+    "lastLedgerTx": 41800238,
+    "txCount": 276
+}
+```

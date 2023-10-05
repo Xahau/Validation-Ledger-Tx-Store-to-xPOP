@@ -5,6 +5,12 @@ import expressWs from 'express-ws'
 import autoindex from 'express-autoindex/dist/index.cjs.js'
 import 'dotenv/config'
 
+import { lastLedger } from '../lib/onLedger.mjs'
+import { txCount } from '../lib/onTransaction.mjs'
+
+const startDate = new Date()
+let lastLedgerTx
+
 let wss // WebSocket Server
 
 if (!wss) {
@@ -26,6 +32,15 @@ if (!wss) {
       // })
 
       app.use('/', express.static('./store/'))
+
+      app.use('/health', (req, res) => {
+        res.json({
+          uptime: new Date() - startDate,
+          lastLedger: lastLedger ?? null,
+          lastLedgerTx: lastLedgerTx ?? null,
+          txCount: txCount ?? null,
+        })
+      })
 
       app.use('/:networkId([0-9]{1,})', (req, res, next) => {
         return autoindex('./store/' + req.params.networkId + '/', { json: /application\/json/.test(req.get('accept')) })(req, res,  next)
@@ -77,6 +92,8 @@ const emit = _data => {
         if (!blob && data?.xpop?.blob) {
           data.xpop.blob = undefined
         }
+
+        lastLedgerTx = data.origin.ledgerIndex
 
         if (account === '' || data.account === account) {
           client.send(JSON.stringify(data), { binary: false })
