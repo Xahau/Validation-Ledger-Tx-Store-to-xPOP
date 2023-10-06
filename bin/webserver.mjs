@@ -98,7 +98,7 @@ if (!wss) {
         })
       })
       
-      const server = app.listen(port)
+      const server = app.listen(port || 3000)
 
       // Play nice with Docker etc.
       process.on('SIGINT', () => {
