@@ -6,6 +6,7 @@ import autoindex from 'express-autoindex/dist/index.cjs.js'
 import nunjucks from 'nunjucks'
 import cors from 'cors'
 import 'dotenv/config'
+import 'wtfnode'
 
 import { lastLedger } from '../lib/onLedger.mjs'
 import { txCount } from '../lib/onTransaction.mjs'
@@ -97,7 +98,15 @@ if (!wss) {
         })
       })
       
-      app.listen(port)
+      const server = app.listen(port)
+
+      // Play nice with Docker etc.
+      process.on('SIGINT', () => {
+        console.log('Shutting down webserver')
+        server.close()
+        wss.getWss().close()
+      })
+
       console.log('Started Event Socket Service at TCP port', port)
     } catch (e) {
       console.log('Cannot start Webserver & Event Socket Service at port', port, e)

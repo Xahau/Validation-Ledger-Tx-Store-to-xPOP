@@ -4,15 +4,21 @@ import { onValidation } from './lib/onValidation.mjs'
 import { onLedger } from './lib/onLedger.mjs'
 import 'dotenv/config'
 import assert from 'assert'
+import wtf from 'wtfnode'
 import './bin/webserver.mjs'
+
+let sigintEventHandler = false
 
 assert(process.env?.NODES, 'ENV var missing: NODES, containing: a comma separated list of websocket endpoints')
 
 await createDirectory('store')
 await createDirectory('store/xpop')
 
-process.env.NODES.split(',').map(h => h.trim())
-  .map(h => new XrplClient(h)).map(async c => {
+const connections = process.env.NODES.split(',').map(h => h.trim())
+  .map(h => new XrplClient(h))
+
+connections
+  .map(async c => {
     
     const subscribe = async () => {
       await c.ready()
@@ -45,4 +51,25 @@ process.env.NODES.split(',').map(h => h.trim())
     }
 
     c.on('online', () => subscribe())
+
   })
+
+// Play nice with Docker etc.
+if (!sigintEventHandler) {
+  sigintEventHandler = true
+
+  process.on('SIGINT', () => {
+    connections
+      .map(async c => {
+        console.info('Interrupted', c.getState()?.server?.uri)
+        c.close()
+      })
+
+    if (process.env?.DEBUG) {
+      // Display open handles
+      console.log('-------------------')
+      wtf.dump()
+      console.log('-------------------' + `\n`)
+    }
+  })
+}
