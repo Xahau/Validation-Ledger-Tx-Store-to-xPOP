@@ -34,30 +34,42 @@ if (!wss) {
       //   return next()
       // })
 
-      app.use('/', function renderHomepage(req, res, next) {
-        res.setHeader('content-type', 'text/html');
-        if (req.url === '' || req.url === '/') {
-          res.render('public_html/index.html', {
-            config: {
-              networkid: process.env?.NETWORKID ?? null,
-              urlprefix: process.env?.URL_PREFIX ?? null,
-              nodes: process.env?.NODES ?? null,
-              fields: process.env?.FIELDSREQUIRED ?? null,
-              unlurl: process.env?.UNLURL ?? null,
-              unlkey: process.env?.UNLKEY ?? null,
-            },
-            stats: {
-              lastLedger: lastLedger ?? null,
-              lastLedgerTx: lastLedgerTx ?? null,
-              txCount: txCount ?? null,  
-            },
-          })
-        } else {
+      app.use('/', 
+        (req, res, next) => {
+          if (req.url.split('?')?.[0].match(/\.json$/i)) {
+            res.setHeader('content-type', 'application/json')
+          }
           next()
-        }
-      },express.static('./store/'))
+        },
+        function renderHomepage(req, res, next) {
+          // res.setHeader('content-type', 'text/html')
+          if (req.url === '' || req.url === '/') {
+            res.render('public_html/index.html', {
+              infraConfig: {
+                wssNodes: typeof process.env?.NODES === 'string' ? process.env.NODES.split(',') : null,
+                unlurl: process.env?.UNLURL ?? null,
+                unlkey: process.env?.UNLKEY ?? null,
+              },
+              config: {
+                networkid: process.env?.NETWORKID ?? null,
+                urlprefix: process.env?.URL_PREFIX ?? null,
+                requiredTxFields: typeof process.env?.FIELDSREQUIRED === 'string' ? process.env.FIELDSREQUIRED.split(',') : null,
+              },
+              stats: {
+                lastLedger: lastLedger ?? null,
+                lastLedgerTx: lastLedgerTx ?? null,
+                txCount: txCount ?? null,  
+              },
+            })
+          } else {
+            next()
+          }
+        },
+        express.static('./store/'),
+      )
 
       app.use('/health', (req, res) => {
+        res.setHeader('content-type', 'application/json')
         res.json({
           uptime: new Date() - startDate,
           lastLedger: lastLedger ?? null,
