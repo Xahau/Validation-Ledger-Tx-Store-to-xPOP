@@ -84,3 +84,27 @@ A health check endpoint lives on `/health`, and returns e.g.:
     "txCount": 276
 }
 ```
+
+## Tools (Utils)
+
+This package provides some internal helper functions:
+
+- NPM (backend): https://www.npmjs.com/package/xpopgen
+- CDN (browser): https://cdn.jsdelivr.net/npm/xpopgen/npm/browser.min.js
+
+#### JS (backend)
+
+```
+import { ledgerIndexToFolders } from 'xpop-utils/npm/utils.mjs'
+console.log(ledgerIndexToFolders(123456789))
+```
+
+#### JS (browser)
+
+```
+<script src="https://cdn.jsdelivr.net/npm/xpopgen/npm/browser.min.js"></script>
+<script>
+  const { ledgerIndexToFolders } = require('xpop-utils')
+  console.log(ledgerIndexToFolders(123456789))
+</script>
+```

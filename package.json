@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon .",
     "xpopdev": "source .env && nodemon --max-old-space-size=40 .",
-    "serve": "serve ./store/"
+    "serve": "serve ./store/",
+    "minify": "cat ./npm/browser.js | terser --compress --mangle > ./npm/browser.min.js",
+    "browserify": "browserify -p esmify -r ./npm/utils.mjs:xpop-utils -o ./npm/browser.js && npm run minify"
   },
   "author": "Wietse Wind <w@xrpl-labs.com>",
   "license": "MIT",
@@ -16,13 +18,23 @@
       "/store/**"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:Xahau/Validation-Ledger-Tx-Store-to-xPOP.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xahau/Validation-Ledger-Tx-Store-to-xPOP/issues"
+  },
+  "homepage": "https://github.com/Xahau/Validation-Ledger-Tx-Store-to-xPOP/#readme",
   "files": [
     "lib/xpop/V1.mjs",
     "lib/ledgerIndexToFolders.mjs",
+    "npm/utils.mjs",
     "README.md"
   ],
   "dependencies": {
     "buffer": "^6.0.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "ed25519": "^0.0.5",
     "elliptic": "^6.5.4",
@@ -37,7 +49,10 @@
     "xrpl-client": "^2.2.0"
   },
   "devDependencies": {
-    "serve": "^14.2.1"
+    "browserify": "^17.0.0",
+    "esmify": "^2.1.1",
+    "serve": "^14.2.1",
+    "terser": "^5.21.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",
