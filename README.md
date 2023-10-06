@@ -10,6 +10,8 @@ Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
 Run a container with HTTP exposed, for XRPL testnet, auto-remove container after running & interactive (allow for CTRL+C to kill).
 
+Docker Hub: https://hub.docker.com/r/wietsewind/xpop
+
 ```bash
 docker run \
   --name xpop \
