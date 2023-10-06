@@ -103,6 +103,7 @@ if (!wss) {
       // Play nice with Docker etc.
       process.on('SIGINT', () => {
         console.log('Shutting down webserver')
+        wss.getWss().clients.forEach(client => client.close())
         server.close()
         wss.getWss().close()
       })
