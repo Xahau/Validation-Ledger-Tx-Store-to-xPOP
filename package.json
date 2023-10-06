@@ -1,5 +1,5 @@
 {
-  "name": "xrplp-validation-msg-store",
+  "name": "xpopgen",
   "version": "1.0.0",
   "description": "Store XRPL Proof of Validation messages",
   "main": "index.mjs",
@@ -16,6 +16,11 @@
       "/store/**"
     ]
   },
+  "files": [
+    "lib/xpop/V1.mjs",
+    "lib/ledgerIndexToFolders.mjs",
+    "README.md"
+  ],
   "dependencies": {
     "buffer": "^6.0.3",
     "dotenv": "^16.3.1",
