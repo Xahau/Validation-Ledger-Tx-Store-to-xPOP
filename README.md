@@ -1,4 +1,4 @@
-# Validation Ledger & Transaction Store
+# Validation Ledger & Transaction Store [![npm version](https://badge.fury.io/js/xpopgen.svg)](https://badge.fury.io/js/xpopgen)
 ## To generate xPOPs
 
 Watcher that connects to multiple nodes & listens for validation messages, closed ledgers & transactions, and stores all of it in an organised file system data structure for xPOP 
