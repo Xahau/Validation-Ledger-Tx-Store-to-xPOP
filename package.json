@@ -11,8 +11,9 @@
   "author": "Wietse Wind <w@xrpl-labs.com>",
   "license": "MIT",
   "nodemonConfig": {
+    "ext": "js,mjs,cjs,html",
     "ignore": [
-      "store/*"
+      "/store/**"
     ]
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "express-ws": "^5.0.2",
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.2",
+    "nunjucks": "^3.2.4",
     "ripple-address-codec": "^4.3.0",
     "ripple-binary-codec": "^1.10.0",
     "ws": "^8.14.2",

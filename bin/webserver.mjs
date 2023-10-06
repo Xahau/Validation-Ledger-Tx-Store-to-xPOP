@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import express from 'express'
 import expressWs from 'express-ws'
 import autoindex from 'express-autoindex/dist/index.cjs.js'
+import nunjucks from 'nunjucks'
 import 'dotenv/config'
 
 import { lastLedger } from '../lib/onLedger.mjs'
@@ -20,6 +21,8 @@ if (!wss) {
     try {
       const app = express()
 
+      nunjucks.configure(new URL('../', import.meta.url).pathname, { autoescape: true, express: app })
+      
       app.enable('trust proxy')
       app.disable('x-powered-by')
       app.use(express.json())
@@ -31,7 +34,28 @@ if (!wss) {
       //   return next()
       // })
 
-      app.use('/', express.static('./store/'))
+      app.use('/', function renderHomepage(req, res, next) {
+        res.setHeader('content-type', 'text/html');
+        if (req.url === '' || req.url === '/') {
+          res.render('public_html/index.html', {
+            config: {
+              networkid: process.env?.NETWORKID ?? null,
+              urlprefix: process.env?.URL_PREFIX ?? null,
+              nodes: process.env?.NODES ?? null,
+              fields: process.env?.FIELDSREQUIRED ?? null,
+              unlurl: process.env?.UNLURL ?? null,
+              unlkey: process.env?.UNLKEY ?? null,
+            },
+            stats: {
+              lastLedger: lastLedger ?? null,
+              lastLedgerTx: lastLedgerTx ?? null,
+              txCount: txCount ?? null,  
+            },
+          })
+        } else {
+          next()
+        }
+      },express.static('./store/'))
 
       app.use('/health', (req, res) => {
         res.json({
@@ -82,8 +106,8 @@ const emit = _data => {
         // console.log(client?._xpopBlob)
 
         let account = ''
-        const accountAddress = client.req.url.match(/r[a-zA-Z0-9]{18,}/)
-        const blob = !!client.req.url.match(/\/blob/i)
+        const accountAddress = client.req?.url.match(/r[a-zA-Z0-9]{18,}/)
+        const blob = !!client.req?.url.match(/\/blob/i)
 
         if (accountAddress) {
           account = accountAddress[0]
