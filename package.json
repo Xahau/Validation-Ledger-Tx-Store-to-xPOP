@@ -30,6 +30,8 @@
     "lib/xpop/V1.mjs",
     "lib/ledgerIndexToFolders.mjs",
     "npm/utils.mjs",
+    "npm/browser.js",
+    "npm/browser.min.js",
     "README.md"
   ],
   "dependencies": {
