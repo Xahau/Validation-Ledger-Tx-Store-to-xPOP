@@ -6,6 +6,27 @@ generation.
 
 Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
+## Run (Docker)
+
+Run a container with HTTP exposed, for XRPL testnet, auto-remove container after running & interactive (allow for CTRL+C to kill).
+
+```bash
+docker run \
+  --name xpop \
+  --rm -i \
+  -p 3000:3000 \
+    -e EVENT_SOCKET_PORT=3000 \
+    -e URL_PREFIX=http://localhost:3000 \
+    -e NETWORKID=1 \
+    -e UNLURL=https://vl.altnet.rippletest.net \
+    -e UNLKEY=ED264807102805220DA0F312E71FC2C69E1552C9C5790F6C25E3729DEB573D5860 \
+    -e NODES=wss://testnet.xrpl-labs.com,wss://s.altnet.rippletest.net:51233 \
+    -e FIELDSREQUIRED=Fee,Account,OperationLimit \
+    -e NOVALIDATIONLOG=true \
+    -e NOELIGIBLEFULLTXLOG=true \
+  wietsewind/xpop:latest
+```
+
 ## Output
 
 #### Folder
