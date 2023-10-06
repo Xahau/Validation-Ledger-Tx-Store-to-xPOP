@@ -4,6 +4,7 @@ import express from 'express'
 import expressWs from 'express-ws'
 import autoindex from 'express-autoindex/dist/index.cjs.js'
 import nunjucks from 'nunjucks'
+import cors from 'cors'
 import 'dotenv/config'
 
 import { lastLedger } from '../lib/onLedger.mjs'
@@ -35,6 +36,7 @@ if (!wss) {
       // })
 
       app.use('/', 
+        cors(),
         (req, res, next) => {
           if (req.url.split('?')?.[0].match(/\.json$/i)) {
             res.setHeader('content-type', 'application/json')
