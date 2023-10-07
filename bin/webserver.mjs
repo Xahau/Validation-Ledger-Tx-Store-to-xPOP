@@ -101,12 +101,15 @@ if (!wss) {
       const server = app.listen(port || 3000)
 
       // Play nice with Docker etc.
-      process.on('SIGINT', () => {
+      const quit = () => {
         console.log('Shutting down webserver')
         wss.getWss().clients.forEach(client => client.close())
         server.close()
         wss.getWss().close()
-      })
+      }
+
+      process.on('SIGINT', quit) // Node
+      process.on('SIGTERM', quit) // Docker    
 
       console.log('Started Event Socket Service at TCP port', port)
     } catch (e) {

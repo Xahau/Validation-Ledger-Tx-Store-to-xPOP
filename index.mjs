@@ -58,7 +58,7 @@ connections
 if (!sigintEventHandler) {
   sigintEventHandler = true
 
-  process.on('SIGINT', () => {
+  const quit = () => {
     connections
       .map(async c => {
         console.info('Interrupted', c.getState()?.server?.uri)
@@ -71,5 +71,8 @@ if (!sigintEventHandler) {
       wtf.dump()
       console.log('-------------------' + `\n`)
     }
-  })
+  }
+
+  process.on('SIGINT', quit) // Node
+  process.on('SIGTERM', quit) // Docker    
 }
