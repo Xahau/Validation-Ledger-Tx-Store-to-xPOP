@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.4'
 services:
     nginx:
         container_name: xpopweb
@@ -11,6 +11,13 @@ services:
         ports:
             - ${PORT:-3000}:3000
         image: nginx:alpine
+        restart: unless-stopped
+        healthcheck:
+            test: curl --fail http://localhost:3000/healthcheck || exit 1
+            interval: 15s
+            retries: 2
+            start_period: 5s
+            timeout: 5s
     xpop:
         container_name: xpop
         image: xpop:service
