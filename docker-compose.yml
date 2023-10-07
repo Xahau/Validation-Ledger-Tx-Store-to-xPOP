@@ -34,6 +34,7 @@ services:
           - FIELDSREQUIRED=${FIELDSREQUIRED:-Fee,Account,OperationLimit}
           - NOVALIDATIONLOG=${NOVALIDATIONLOG:-}
           - NOELIGIBLEFULLTXLOG=${NOELIGIBLEFULLTXLOG:-}
+          - DEBUG=${DEBUG:-}
 volumes:
   nginxcache:
   nginxpid:
