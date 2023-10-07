@@ -2,7 +2,7 @@
 ## To generate xPOPs
 
 Watcher that connects to multiple nodes & listens for validation messages, closed ledgers & transactions, and stores all of it in an organised file system data structure for xPOP 
-generation.
+generation. Why? Pretty important: XRPL validation messages are ephemeral, and if no one has them the burn can't be turned into a mint.
 
 Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
