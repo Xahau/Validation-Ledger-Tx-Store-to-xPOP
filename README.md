@@ -18,6 +18,23 @@ docker-compose up
 
 Unless specified otherwise (with environment variables) a connection to XRPL Testnet will be made.
 
+##### Cleanup
+
+The `docker-compose` machines also contain a clean up machine.
+
+The clean up will clear the pre-generated xPOP HEX files from the `/xpop` folder when
+older than `60 minutes [default=60]` - which can be changed with the `TTL_MINUTES_PREGEN_XPOP` environment variable.
+
+The clean up will clear folders with all source files for xPOP generation from the `/store/{networkid}`
+subfolders older than `30 days [default=30]` (one month) - which can be changed with the `TTL_DAYS_XPOP_SOURCE_FILES`
+environment variable.
+
+Expect a significant IO impact during cleanup if a lot of existing history is stored. Clean up will run
+on `docker-compose up` and every `60 minutes [default=60]` thereafter - which can be changed with the
+`TTL_MINUTES_CLEANUP_INTERVAL` environment variable.
+
+##### Endpoints
+
 You will get a container running at port 3000 (unless configured differently), with the following routes:
 
 - `http://{host}:3000` » Web Browser: homepage with some stats and links
