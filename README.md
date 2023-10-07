@@ -17,6 +17,7 @@ docker rmi wietsewind/xpop:latest # Clean existing image, or build locally
 docker run \
   --name xpop \
   --rm -i \
+  -v $(pwd)/store:/usr/src/app/store
   -p 3000:3000 \
     -e EVENT_SOCKET_PORT=3000 \
     -e URL_PREFIX=http://localhost:3000 \
