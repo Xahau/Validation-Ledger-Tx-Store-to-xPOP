@@ -8,6 +8,28 @@ Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
 ## Run (Docker)
 
+#### Docker Compose
+
+To run this service & nginx in two separate preconfigured containers, simply run:
+
+```bash
+docker-compose up
+```
+
+Unless specified otherwise (with environment variables) a connection to XRPL Testnet will be made.
+
+You will get a container running at port 3000 (unless configured differently), with the following routes:
+
+- `http://{host}:3000` » Web Browser: homepage with some stats and links
+- `http://{host}:3000` » WebSocket: live events on xPOP generated
+- `http://{host}:3000/blob` » WebSocket: live events on xPOP generated + HEX XPOP
+- `http://{host}:3000/blob/{account}` » WebSocket: live events on xPOP generated + HEX XPOP for specific account
+- `http://{host}:3000/xpop/{hash}` » HEX encoded xPOP
+- `http://{host}:3000/{networkid}/{...}` » Web Browser Dirlisting & xPOP source files
+- `http://{host}:3000/{networkid}/{...}` » Called with `Content-Type: application/json`? JSON dirlisting
+
+
+#### Single Docker Container
 Run a container with HTTP exposed, for XRPL testnet, auto-remove container after running & interactive (allow for CTRL+C to kill).
 
 Docker Hub: https://hub.docker.com/r/wietsewind/xpop
