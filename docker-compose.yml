@@ -35,6 +35,7 @@ services:
           - NOVALIDATIONLOG=${NOVALIDATIONLOG:-}
           - NOELIGIBLEFULLTXLOG=${NOELIGIBLEFULLTXLOG:-}
           - DEBUG=${DEBUG:-}
+          - TELEMETRY=${TELEMETRY:-NO}
         restart: unless-stopped
         healthcheck:
             test: wget --spider -q http://localhost:3000/health || exit 1

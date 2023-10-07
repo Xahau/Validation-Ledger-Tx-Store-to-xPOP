@@ -11,6 +11,32 @@ import 'wtfnode'
 import { lastLedger } from '../lib/onLedger.mjs'
 import { txCount } from '../lib/onTransaction.mjs'
 
+const telemetry = {
+  host: null,
+  proto: null,
+  url: process.env?.URL_PREFIX,
+  collected: false,
+  sent: false,
+}
+
+const sendTelemetry = async () => {
+  if (process.env?.TELEMETRY === 'YES') {
+    try {
+      console.log('Sending telemetry...', telemetry)
+      telemetry.sent = new Date()
+      const tcall = await fetch('https://xrpl.ws-stats.com/xpop/telemetry', {
+        body: JSON.stringify(telemetry),
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+      })
+      const tbody = await tcall.text()
+      console.log('Telemetry response', tbody)
+    } catch (e) {
+      console.log('Error sending telemetry', e.message)
+    }
+  }
+}
+
 const startDate = new Date()
 let lastWsPushedLedger
 
@@ -25,7 +51,7 @@ if (!wss) {
 
       nunjucks.configure(new URL('../', import.meta.url).pathname, { autoescape: true, express: app })
       
-      app.enable('trust proxy')
+      app.enable('trust proxy') // , ['loopback', 'linklocal', 'uniquelocal']) - Needs more for Cloudflare etc.
       app.disable('x-powered-by')
       app.use(express.json())
       app.use(morgan('combined', { }))
@@ -39,6 +65,19 @@ if (!wss) {
       app.use('/', 
         cors(),
         (req, res, next) => {
+          if (process.env?.TELEMETRY === 'YES' && !req.url.match(/health/)) {
+            const telemetryData = {
+              host: req.headers?.['host'] || 'localhost',
+              proto: (req.headers?.['x-forwarded-proto'] || 'http').split(',')[0],
+              collected: new Date(),
+            }
+
+            if (!telemetry.collected || telemetryData.host !== telemetry.host) {
+              Object.assign(telemetry, telemetryData)
+              sendTelemetry()
+            }
+          }
+
           if (req.url.split('?')?.[0].match(/\.json$/i)) {
             res.setHeader('content-type', 'application/json')
           }

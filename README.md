@@ -13,10 +13,15 @@ Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 To run this service & nginx in two separate preconfigured containers, simply run:
 
 ```bash
-docker-compose up
+TELEMETRY=YES URL_PREFIX=https://xpop.my-site.com docker-compose up --build
 ```
 
 Unless specified otherwise (with environment variables) a connection to XRPL Testnet will be made.
+
+The above command explained:
+- `TELEMETRY=YES` sends the `URL_PREFIX` and request hostname to XRPL Labs to build an xPOP serving directory. Default: `NO`, change to `YES` to enable (much appreciated) if you want to run this service publicly for others to fetch xPOPs from (really really appreciate it 💕!)
+- `URL_PREFIX` specifies a public URL (if applicable) you are serving your xPOPs on (mapped to this service)
+- `--build` at the end makes sure you rebuild your service container, to make sure you're running the latest version of this code
 
 ##### Cleanup
 
