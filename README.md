@@ -13,6 +13,7 @@ Run a container with HTTP exposed, for XRPL testnet, auto-remove container after
 Docker Hub: https://hub.docker.com/r/wietsewind/xpop
 
 ```bash
+docker rmi wietsewind/xpop:latest # Clean existing image, or build locally
 docker run \
   --name xpop \
   --rm -i \
