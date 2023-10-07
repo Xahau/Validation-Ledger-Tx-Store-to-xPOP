@@ -12,7 +12,7 @@ import { lastLedger } from '../lib/onLedger.mjs'
 import { txCount } from '../lib/onTransaction.mjs'
 
 const startDate = new Date()
-let lastServedTxLedger
+let lastWsPushedLedger
 
 let wss // WebSocket Server
 
@@ -60,7 +60,7 @@ if (!wss) {
               },
               stats: {
                 lastLedger: lastLedger ?? null,
-                lastServedTxLedger: lastServedTxLedger ?? null,
+                lastWsPushedLedger: lastWsPushedLedger ?? null,
                 txCount: txCount ?? null,  
               },
             })
@@ -76,7 +76,7 @@ if (!wss) {
         res.json({
           uptime: new Date() - startDate,
           lastLedger: lastLedger ?? null,
-          lastServedTxLedger: lastServedTxLedger ?? null,
+          lastWsPushedLedger: lastWsPushedLedger ?? null,
           txCount: txCount ?? null,
         })
       })
@@ -141,7 +141,7 @@ const emit = _data => {
           data.xpop.blob = undefined
         }
 
-        lastServedTxLedger = data.origin.ledgerIndex
+        lastWsPushedLedger = data.origin.ledgerIndex
 
         if (account === '' || data.account === account) {
           client.send(JSON.stringify(data), { binary: false })
