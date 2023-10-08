@@ -33,7 +33,7 @@ The above command explained:
 
 #### Updates
 
-To install & run an updated version, update the repository (`git pull`) & then run the last `docker-compose up` command (with your environment variables, etc.) with the `--build` flag at the end. This rebuilds the containers and replaces the existing ones with the new version.
+To install & run an updated version, update the repository (`git pull`), take the existing containers down (`docker-compose down`) & then run the last `docker-compose up` command (with your environment variables, etc.) with the `--build` flag at the end. This rebuilds the containers and replaces the existing ones with the new version.
 
 ##### Cleanup
 
