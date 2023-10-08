@@ -6,6 +6,14 @@ generation. Why? Pretty important: XRPL validation messages are ephemeral, and i
 
 Based on the work by @RichardAH: https://github.com/RichardAH/xpop-generator
 
+## Consuming data from this service
+
+You can easily fetch ready to use xPOP, or even generate them from source data
+possibly scattered across instances like this instance using the
+[https://www.npmjs.com/package/xpop](https://www.npmjs.com/package/xpop) npm package.
+
+[![npm version](https://badge.fury.io/js/xpop.svg)](https://badge.fury.io/js/xpop)
+
 ## Run (Docker)
 
 #### Docker Compose
