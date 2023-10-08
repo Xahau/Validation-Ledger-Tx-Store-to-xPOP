@@ -52,6 +52,7 @@ connections
 
     c.on('online', () => subscribe())
 
+    c.on('error', e => console.error(e?.message || e))
   })
 
 // Play nice with Docker etc.
