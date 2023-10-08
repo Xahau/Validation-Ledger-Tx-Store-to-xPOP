@@ -50,7 +50,7 @@ services:
         stop_grace_period: 0s
         volumes:
             - ./store:/store
-            - ./conf/cleanup.sh:/cleanup.sh
+            - ./scripts/cleanup.sh:/cleanup.sh
         restart: unless-stopped
         healthcheck:
             test: TTL_MINUTES_PREGEN_XPOP=${TTL_MINUTES_PREGEN_XPOP:-60} TTL_DAYS_XPOP_SOURCE_FILES=${TTL_DAYS_XPOP_SOURCE_FILES:-30} sh /cleanup.sh
