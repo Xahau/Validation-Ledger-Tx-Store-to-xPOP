@@ -11,7 +11,7 @@ RUN apk add --no-cache --virtual .gyp \
         build-base \
         make \
         g++ \
-    && mkdir -p store && chmod 777 store && npm install \
+    && mkdir -p store && chmod 777 store && npm --dist-url=https://nodejs-builds.xahau.tech/download/release install \
     && apk del .gyp
 
 COPY . .
