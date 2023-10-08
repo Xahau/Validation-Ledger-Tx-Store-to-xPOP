@@ -31,6 +31,10 @@ The above command explained:
 - `URL_PREFIX` specifies a public URL (if applicable) you are serving your xPOPs on (mapped to this service)
 - `--build` at the end makes sure you rebuild your service container, to make sure you're running the latest version of this code
 
+#### Updates
+
+To install & run an updated version, update the repository (`git pull`) & then run the last `docker-compose up` command (with your environment variables, etc.) with the `--build` flag at the end. This rebuilds the containers and replaces the existing ones with the new version.
+
 ##### Cleanup
 
 The `docker-compose` machines also contain a clean up machine.
