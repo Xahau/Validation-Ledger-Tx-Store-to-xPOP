@@ -191,3 +191,13 @@ console.log(ledgerIndexToFolders(123456789))
   console.log(ledgerIndexToFolders(123456789))
 </script>
 ```
+
+## Triggering transactions
+
+Sample to generate & submit a B2M transaction on Testnet, resulting in an xPOP:
+- https://gist.github.com/WietseWind/cd8a7a8c88f218fe7b768f59a665685d
+
+## Consuming this backend from the browser
+
+Sample to use this script in the browser:
+- https://jsfiddle.net/WietseWind/42kpm0hr/
