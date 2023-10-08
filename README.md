@@ -24,6 +24,8 @@ To run this service & nginx in two separate preconfigured containers, simply run
 TELEMETRY=YES URL_PREFIX=https://xpop.my-site.com docker-compose up --build
 ```
 
+Run with `-d` flag to run 'detached', in the background.
+
 Unless specified otherwise (with environment variables) a connection to XRPL Testnet will be made.
 
 The above command explained:
