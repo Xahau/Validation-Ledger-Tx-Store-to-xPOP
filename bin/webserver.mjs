@@ -61,7 +61,7 @@ if (!wss) {
       //   return next()
       // })
 
-      app.use('/',
+      app.use('/', 
         (req, res, next) => {
           if (process.env?.TELEMETRY === 'YES' && !req.url.match(/health/)) {
             const telemetryData = {
@@ -79,7 +79,13 @@ if (!wss) {
           if (req.url.split('?')?.[0].match(/\.json$/i)) {
             res.setHeader('content-type', 'application/json')
           }
-          next()
+
+          // Sent by nginx used with docker-compose
+          if (req.headers?.['x-no-cors']) {
+            next()
+          } else {
+            cors()(req, res, next)
+          }
         },
         function renderHomepage(req, res, next) {
           // res.setHeader('content-type', 'text/html')
