@@ -35,20 +35,20 @@ connections
         // processed in order (sorted on sequence) and emitted in order
         // to clients to prevent async tx sequence problems.
       ] })
-
-      c.on("validation", validation => onValidation({
-        connectionUrl: c.getState()?.server?.uri,
-        networkId: c.getState()?.server?.networkId,
-        validation,
-      }))
-
-      c.on("ledger", ledger => onLedger({
-        connectionUrl: c.getState()?.server?.uri,
-        networkId: c.getState()?.server?.networkId,
-        ledger,
-        connection: c,
-      }))
     }
+
+    c.on("validation", validation => onValidation({
+      connectionUrl: c.getState()?.server?.uri,
+      networkId: c.getState()?.server?.networkId,
+      validation,
+    }))
+
+    c.on("ledger", ledger => onLedger({
+      connectionUrl: c.getState()?.server?.uri,
+      networkId: c.getState()?.server?.networkId,
+      ledger,
+      connection: c,
+    }))
 
     c.on('online', () => subscribe())
 
