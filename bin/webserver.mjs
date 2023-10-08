@@ -4,7 +4,6 @@ import express from 'express'
 import expressWs from 'express-ws'
 import autoindex from 'express-autoindex/dist/index.cjs.js'
 import nunjucks from 'nunjucks'
-import cors from 'cors'
 import 'dotenv/config'
 import 'wtfnode'
 
@@ -62,8 +61,7 @@ if (!wss) {
       //   return next()
       // })
 
-      app.use('/', 
-        cors(),
+      app.use('/',
         (req, res, next) => {
           if (process.env?.TELEMETRY === 'YES' && !req.url.match(/health/)) {
             const telemetryData = {
