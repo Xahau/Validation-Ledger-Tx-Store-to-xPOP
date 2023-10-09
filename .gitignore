@@ -3,3 +3,5 @@
 /node_modules
 /store
 /scripts/docker-push.sh
+/conf/ssl/nginx-ssl-certificate.pem
+/conf/ssl/nginx-ssl-private.key
