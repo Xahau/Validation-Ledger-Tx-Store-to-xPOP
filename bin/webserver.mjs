@@ -62,7 +62,7 @@ let wss // WebSocket Server
 
 if (!wss) {
   if (process.env?.EVENT_SOCKET_PORT && process.env?.URL_PREFIX) {
-    const port = Number(process.env.EVENT_SOCKET_PORT)
+    const port = Number(process.env.EVENT_SOCKET_PORT || 3000)
     
     try {
       const app = express()
@@ -163,7 +163,7 @@ if (!wss) {
         })
       })
       
-      const server = app.listen(port || 3000)
+      const server = app.listen(port)
 
       // Play nice with Docker etc.
       const quit = () => {
