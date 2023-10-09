@@ -15,7 +15,11 @@ await createDirectory('store')
 await createDirectory('store/xpop')
 
 const connections = process.env.NODES.split(',').map(h => h.trim())
-  .map(h => new XrplClient(h))
+  .map(h => new XrplClient(h, {
+    assumeOfflineAfterSeconds: 10,
+    connectAttemptTimeoutSeconds: 10,
+    maxConnectionAttempts: null,
+  }))
 
 connections
   .map(async c => {
@@ -28,13 +32,17 @@ connections
        * TODO: Generate xPOPs for matching transactions
        */
 
-      c.send({ command: "subscribe", streams: [
-        "validations",
-        "ledger",
-        // No transactions, to make it easier for clients transactions are
-        // processed in order (sorted on sequence) and emitted in order
-        // to clients to prevent async tx sequence problems.
-      ] })
+      try {
+        c.send({ command: "subscribe", streams: [
+          "validations",
+          "ledger",
+          // No transactions, to make it easier for clients transactions are
+          // processed in order (sorted on sequence) and emitted in order
+          // to clients to prevent async tx sequence problems.
+        ] })
+      } catch (e) {
+        console.log(e.message)
+      }
     }
 
     c.on("validation", validation => onValidation({
@@ -51,6 +59,9 @@ connections
     }))
 
     c.on('online', () => subscribe())
+    c.on('state', () => subscribe())
+    // c.on('retry', () => subscribe())
+    // c.on('round', () => subscribe())
 
     c.on('error', e => console.error(e?.message || e))
   })
