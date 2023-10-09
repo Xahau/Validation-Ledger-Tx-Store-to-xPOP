@@ -9,7 +9,7 @@
     "serve": "serve ./store/",
     "minify": "cat ./npm/browser.js | terser --compress --mangle > ./npm/browser.min.js",
     "browserify": "browserify -p esmify -r ./npm/utils.mjs:xpop-utils -o ./npm/browser.js && npm run minify",
-    "publish": "git push && scripts/docker-build.sh && scripts/docker-push.sh"
+    "publish": "npm version patch && npm publish && git push && scripts/docker-push.sh"
   },
   "author": "Wietse Wind <w@xrpl-labs.com>",
   "license": "MIT",
