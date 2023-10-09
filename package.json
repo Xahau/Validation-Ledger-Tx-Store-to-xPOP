@@ -1,6 +1,6 @@
 {
   "name": "xpopgen",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "Store XRPL Proof of Validation messages",
   "main": "index.mjs",
   "scripts": {
