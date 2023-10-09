@@ -1,4 +1,5 @@
 import { WebSocket } from 'ws'
+import { readFile } from 'fs'
 import morgan from 'morgan'
 import express from 'express'
 import expressWs from 'express-ws'
@@ -18,6 +19,23 @@ const telemetry = {
   collected: false,
   sent: false,
 }
+
+const version = await new Promise(resolve => {
+  readFile(new URL('../package.json', import.meta.url).pathname, (err, data) => {
+    if (!err) {
+      try {
+        const pjson = JSON.parse(data)
+        return resolve(pjson?.version)
+      }
+      catch (e) {
+        //
+      }
+    }
+    resolve(null)
+  })
+})
+
+console.log('Running backend version', version || '<< UNKNOWN >>')
 
 const sendTelemetry = async () => {
   if (process.env?.TELEMETRY === 'YES') {
@@ -98,11 +116,13 @@ if (!wss) {
                 unlkey: process.env?.UNLKEY ?? null,
               },
               config: {
+                version,
                 networkid: process.env?.NETWORKID ?? null,
                 urlprefix: process.env?.URL_PREFIX ?? null,
                 requiredTxFields: typeof process.env?.FIELDSREQUIRED === 'string' ? process.env.FIELDSREQUIRED.split(',') : null,
               },
               stats: {
+                uptime: new Date() - startDate,
                 lastLedger: lastLedger ?? null,
                 lastWsPushedLedger: lastWsPushedLedger ?? null,
                 txCount: txCount ?? null,  
@@ -118,6 +138,7 @@ if (!wss) {
       app.use('/health', (req, res) => {
         res.setHeader('content-type', 'application/json')
         res.json({
+          version,
           uptime: new Date() - startDate,
           lastLedger: lastLedger ?? null,
           lastWsPushedLedger: lastWsPushedLedger ?? null,
