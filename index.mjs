@@ -33,14 +33,12 @@ connections
        */
 
       try {
-        c.send({ command: "subscribe", streams: [
-          "validations",
-          "ledger",
-          // No transactions, to make it easier for clients transactions are
-          // processed in order (sorted on sequence) and emitted in order
-          // to clients to prevent async tx sequence problems.
-        ] })
-      } catch (e) {
+        c.send({ command: "subscribe", streams: [ "validations" ] })
+        c.send({ command: "subscribe", streams: [ "ledger" ] })
+        // No transactions, to make it easier for clients transactions are
+        // processed in order (sorted on sequence) and emitted in order
+        // to clients to prevent async tx sequence problems.
+        } catch (e) {
         console.log(e.message)
       }
     }
