@@ -108,6 +108,10 @@ if (!wss) {
         },
         function renderHomepage(req, res, next) {
           // res.setHeader('content-type', 'text/html')
+          res.setHeader('Cache-Control', 'no-store')
+             .setHeader('Pragma','no-cache')
+             .setHeader('Expires',0)
+             .setHeader('Surrogate-Control','no-store')
           if (req.url === '' || req.url === '/') {
             res.render('public_html/index.html', {
               infraConfig: {
