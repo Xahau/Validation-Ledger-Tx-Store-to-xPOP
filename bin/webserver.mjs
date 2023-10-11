@@ -12,6 +12,10 @@ import 'wtfnode'
 import { lastLedger } from '../lib/onLedger.mjs'
 import { txCount } from '../lib/onTransaction.mjs'
 
+let _health = {
+  reconnectCount: -1,
+}
+
 const telemetry = {
   host: null,
   proto: null,
@@ -132,7 +136,8 @@ if (!wss) {
                 uptime: new Date() - startDate,
                 lastLedger: lastLedger ?? null,
                 lastWsPushedLedger: lastWsPushedLedger ?? null,
-                txCount: txCount ?? null,  
+                txCount: txCount ?? null,
+                ..._health,
               },
             })
           } else {
@@ -150,6 +155,7 @@ if (!wss) {
           lastLedger: lastLedger ?? null,
           lastWsPushedLedger: lastWsPushedLedger ?? null,
           txCount: txCount ?? null,
+          ..._health,
         })
       })
 
@@ -232,4 +238,5 @@ const emit = _data => {
 
 export {
   emit,
+  _health,
 }
