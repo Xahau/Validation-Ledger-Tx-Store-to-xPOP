@@ -52,6 +52,9 @@ const sendTelemetry = async () => {
     } catch (e) {
       console.log('Error sending telemetry', e.message)
     }
+    setTimeout(() => {
+      Object.assign(telemetry, { collected: false });
+    }, 600 * 1000) // Re send telemetry after 10 minutes
   }
 }
 
