@@ -106,7 +106,14 @@ if (!sigintEventHandler) {
 
   const quit = () => {
     if (!quitting) {
+      clearTimeout(aliveInterval)
+
       quitting = true
+
+      // Allow for re-quit shortly after
+      setTimeout(() => {
+        quitting = false
+      }, 1000)
 
       console.log('Closing (interrupting) connections', connections.length)
       connections
