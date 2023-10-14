@@ -21,7 +21,7 @@ possibly scattered across instances like this instance using the
 To run this service & nginx in two separate preconfigured containers, simply run:
 
 ```bash
-TELEMETRY=YES URL_PREFIX=https://xpop.my-site.com docker-compose up --build
+PORT=80 SSLPORT=443 TELEMETRY=YES URL_PREFIX=https://localhost docker-compose up --build
 ```
 
 Run with `-d` flag to run 'detached', in the background.
