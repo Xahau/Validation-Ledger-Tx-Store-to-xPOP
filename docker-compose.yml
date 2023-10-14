@@ -58,7 +58,7 @@ services:
         healthcheck:
             test: TTL_MINUTES_PREGEN_XPOP=${TTL_MINUTES_PREGEN_XPOP:-60} TTL_DAYS_XPOP_SOURCE_FILES=${TTL_DAYS_XPOP_SOURCE_FILES:-30} sh /cleanup.sh
             interval: ${TTL_MINUTES_CLEANUP_INTERVAL:-60}m
-            retries: 0
+            retries: 10
             timeout: 55m
 volumes:
   nginxcache:
