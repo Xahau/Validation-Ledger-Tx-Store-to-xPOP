@@ -151,7 +151,7 @@ if (!wss) {
         res.setHeader('content-type', 'application/json')
         res.json({
           version,
-          networkid: process.env?.NETWORKID ?? null,
+          networkid: Number(process.env?.NETWORKID ?? 0) || 0,
           uptime: new Date() - startDate,
           lastLedger: lastLedger ?? null,
           lastWsPushedLedger: lastWsPushedLedger ?? null,
