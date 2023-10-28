@@ -20,6 +20,7 @@ const telemetry = {
   host: null,
   proto: null,
   url: process.env?.URL_PREFIX,
+  networkid: process.env?.NETWORKID ?? null,
   collected: false,
   sent: false,
 }
