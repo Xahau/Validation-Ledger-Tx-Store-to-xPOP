@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+    xpop-mainnet:
+        container_name: xpop-mainnet
+        image: xpop:service
+        build: .
+        volumes:
+            - ./store:/usr/src/app/store
+        environment:
+          - EVENT_SOCKET_PORT=3000
+          - PUBLIC_PORT=${PORT:-3000}
+          - URL_PREFIX=${URL_PREFIX:-http://localhost:${PORT:-3000}}
+          - NETWORKID=0
+          - UNLURL=https://vl.xrplf.org
+          - UNLKEY=ED45D1840EE724BE327ABE9146503D5848EFD5F38B6D5FEDE71E80ACCE5E6E738B
+          - NODES=wss://xrplcluster.com,wss://s2.ripple.com
+          - FIELDSREQUIRED=Fee,Account,OperationLimit
+          - NOVALIDATIONLOG=1
+          - NOELIGIBLEFULLTXLOG=1
+          - ONLYUNLVALIDATIONS=${ONLYUNLVALIDATIONS}
+          - DEBUG=${DEBUG}
+          - TELEMETRY=${TELEMETRY:-NO}
+        restart: unless-stopped
+        healthcheck:
+            test: wget --spider -q http://localhost:3000/health || exit 1
+            interval: 15s
+            retries: 2
+            start_period: 5s
+            timeout: 5s

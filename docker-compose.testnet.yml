@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+    xpop-testnet:
+        container_name: xpop-testnet
+        image: xpop:service
+        build: .
+        volumes:
+            - ./store:/usr/src/app/store
+        environment:
+          - EVENT_SOCKET_PORT=3000
+          - PUBLIC_PORT=${PORT_TESTNET:-3001}
+          - URL_PREFIX=${URL_PREFIX:-http://localhost:${PORT_TESTNET:-3001}}
+          - NETWORKID=1
+          - UNLURL=https://vl.altnet.rippletest.net
+          - UNLKEY=ED264807102805220DA0F312E71FC2C69E1552C9C5790F6C25E3729DEB573D5860
+          - NODES=wss://testnet.xrpl-labs.com,wss://s.altnet.rippletest.net:51233
+          - FIELDSREQUIRED=Fee,Account,OperationLimit
+          - NOVALIDATIONLOG=1
+          - NOELIGIBLEFULLTXLOG=1
+          - ONLYUNLVALIDATIONS=${ONLYUNLVALIDATIONS}
+          - DEBUG=${DEBUG}
+          - TELEMETRY=${TELEMETRY:-NO}
+        restart: unless-stopped
+        healthcheck:
+            test: wget --spider -q http://localhost:3000/health || exit 1
+            interval: 15s
+            retries: 2
+            start_period: 5s
+            timeout: 5s
