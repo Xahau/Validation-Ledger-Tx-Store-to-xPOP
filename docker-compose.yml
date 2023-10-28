@@ -4,7 +4,7 @@ services:
         container_name: xpopweb
         read_only: true
         volumes:
-            - ./conf/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./conf/nginx.conf:/etc/nginx/nginx.conf.template:ro
             - ./conf/ssl:/etc/nginx/ssl:ro
             - nginxcache:/var/cache/nginx
             - nginxpid:/var/run
@@ -12,7 +12,14 @@ services:
         ports:
             - ${PORT:-3000}:3000
             - ${SSLPORT:-3443}:3443
+            - ${PORT_TESTNET:-3001}:3001
+            - ${SSLPORT_TESTNET:-3444}:3444
         image: nginx:alpine
+        environment:
+          - PUBLIC_PORT=${PORT:-3000}
+          - PUBLIC_PORT_TESTNET=${PORT_TESTNET:-3001}
+          - SSLPORT=${SSLPORT:-3443}
+          - SSLPORT_TESTNET=${SSLPORT_TESTNET:-3444}
         restart: unless-stopped
         healthcheck:
             test: curl --fail http://localhost:3000/healthcheck || exit 1
@@ -20,8 +27,36 @@ services:
             retries: 2
             start_period: 5s
             timeout: 5s
-    xpop:
-        container_name: xpop
+        command: /bin/sh -c "envsubst '$$PUBLIC_PORT $$PUBLIC_PORT_TESTNET $$SSLPORT $$SSLPORT_TESTNET' < /etc/nginx/nginx.conf.template > /var/cache/nginx/conf ; nginx -c /var/cache/nginx/conf -g 'daemon off;'" 
+    xpop-testnet:
+        container_name: xpop-testnet
+        image: xpop:service
+        build: .
+        volumes:
+            - ./store:/usr/src/app/store
+        environment:
+          - EVENT_SOCKET_PORT=3000
+          - PUBLIC_PORT=${PORT_TESTNET:-3001}
+          - URL_PREFIX=${URL_PREFIX:-http://localhost:${PORT_TESTNET:-3001}}
+          - NETWORKID=1
+          - UNLURL=https://vl.altnet.rippletest.net
+          - UNLKEY=ED264807102805220DA0F312E71FC2C69E1552C9C5790F6C25E3729DEB573D5860
+          - NODES=wss://testnet.xrpl-labs.com,wss://s.altnet.rippletest.net:51233
+          - FIELDSREQUIRED=Fee,Account,OperationLimit
+          - NOVALIDATIONLOG=1
+          - NOELIGIBLEFULLTXLOG=1
+          - ONLYUNLVALIDATIONS=${ONLYUNLVALIDATIONS}
+          - DEBUG=${DEBUG}
+          - TELEMETRY=${TELEMETRY:-NO}
+        restart: unless-stopped
+        healthcheck:
+            test: wget --spider -q http://localhost:3000/health || exit 1
+            interval: 15s
+            retries: 2
+            start_period: 5s
+            timeout: 5s
+    xpop-mainnet:
+        container_name: xpop-mainnet
         image: xpop:service
         build: .
         volumes:
@@ -29,14 +64,14 @@ services:
         environment:
           - EVENT_SOCKET_PORT=3000
           - PUBLIC_PORT=${PORT:-3000}
-          - URL_PREFIX=${URL_PREFIX:-http://localhost:3000}
-          - NETWORKID=${NETWORKID:-1}
-          - UNLURL=${UNLURL:-https://vl.altnet.rippletest.net}
-          - UNLKEY=${UNLKEY:-ED264807102805220DA0F312E71FC2C69E1552C9C5790F6C25E3729DEB573D5860}
-          - NODES=${NODES:-wss://testnet.xrpl-labs.com,wss://s.altnet.rippletest.net:51233}
-          - FIELDSREQUIRED=${FIELDSREQUIRED:-Fee,Account,OperationLimit}
-          - NOVALIDATIONLOG=${NOVALIDATIONLOG}
-          - NOELIGIBLEFULLTXLOG=${NOELIGIBLEFULLTXLOG}
+          - URL_PREFIX=${URL_PREFIX:-http://localhost:${PORT:-3000}}
+          - NETWORKID=0
+          - UNLURL=https://vl.xrplf.org
+          - UNLKEY=ED45D1840EE724BE327ABE9146503D5848EFD5F38B6D5FEDE71E80ACCE5E6E738B
+          - NODES=wss://xrplcluster.com,wss://s2.ripple.com
+          - FIELDSREQUIRED=Fee,Account,OperationLimit
+          - NOVALIDATIONLOG=1
+          - NOELIGIBLEFULLTXLOG=1
           - ONLYUNLVALIDATIONS=${ONLYUNLVALIDATIONS}
           - DEBUG=${DEBUG}
           - TELEMETRY=${TELEMETRY:-NO}
