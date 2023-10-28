@@ -18,10 +18,16 @@ possibly scattered across instances like this instance using the
 
 #### Docker Compose
 
-To run this service & nginx in two separate preconfigured containers, simply run:
+To run this service & nginx in two separate preconfigured containers:
+- Webserver (nginx)
+- Cleaner (cleans up xPOPs)
+- xPOP collector for XRPL Mainnet (listens on `PORT` and `SSLPORT`)
+- xPOP collector for XRPL Testnet (listens on `PORT_TESTNET` and `SSLPORT_TESTNET`)
+
+Simply run:
 
 ```bash
-PORT=80 SSLPORT=443 TELEMETRY=YES URL_PREFIX=https://localhost docker-compose up --build
+PORT=80 SSLPORT=443 PORT_TESTNET=81 SSLPORT_TESTNET=444 TELEMETRY=YES URL_PREFIX=https://localhost docker-compose up --build
 ```
 
 Run with `-d` flag to run 'detached', in the background.
