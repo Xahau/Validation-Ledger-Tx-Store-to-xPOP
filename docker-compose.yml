@@ -37,6 +37,7 @@ services:
           - FIELDSREQUIRED=${FIELDSREQUIRED:-Fee,Account,OperationLimit}
           - NOVALIDATIONLOG=${NOVALIDATIONLOG}
           - NOELIGIBLEFULLTXLOG=${NOELIGIBLEFULLTXLOG}
+          - ONLYUNLVALIDATIONS=${ONLYUNLVALIDATIONS}
           - DEBUG=${DEBUG}
           - TELEMETRY=${TELEMETRY:-NO}
         restart: unless-stopped
