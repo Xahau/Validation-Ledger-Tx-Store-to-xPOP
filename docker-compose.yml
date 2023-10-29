@@ -15,10 +15,10 @@ services:
             - nginxpid:/var/run
             - ./store/:/usr/share/nginx/html:ro
         ports:
-            - ${PORT:-3000}:3000
-            - ${SSLPORT:-3443}:3443
-            - ${PORT_TESTNET:-3001}:3001
-            - ${SSLPORT_TESTNET:-3444}:3444
+            - ${PORT:-3000}:${PORT:-3000}
+            - ${SSLPORT:-3443}:${SSLPORT:-3443}
+            - ${PORT_TESTNET:-3001}:${PORT_TESTNET:-3001}
+            - ${SSLPORT_TESTNET:-3444}:${SSLPORT_TESTNET:-3444}
         image: nginx:alpine
         environment:
           - PUBLIC_PORT=${PORT:-3000}
