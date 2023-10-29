@@ -20,7 +20,7 @@ const telemetry = {
   host: null,
   proto: null,
   url: process.env?.URL_PREFIX,
-  networkid: process.env?.NETWORKID ?? null,
+  networkid: process.env?.NETWORKID ?? 0,
   collected: false,
   sent: false,
 }
@@ -129,7 +129,7 @@ if (!wss) {
               },
               config: {
                 version,
-                networkid: process.env?.NETWORKID ?? null,
+                networkid: process.env?.NETWORKID ?? 0,
                 urlprefix: process.env?.URL_PREFIX ?? null,
                 requiredTxFields: typeof process.env?.FIELDSREQUIRED === 'string' ? process.env.FIELDSREQUIRED.split(',') : null,
               },
@@ -152,7 +152,7 @@ if (!wss) {
         res.setHeader('content-type', 'application/json')
         res.json({
           version,
-          networkid: Number(process.env?.NETWORKID ?? 0) || null,
+          networkid: Number(process.env?.NETWORKID ?? 0),
           uptime: new Date() - startDate,
           lastLedger: lastLedger ?? null,
           lastWsPushedLedger: lastWsPushedLedger ?? null,
