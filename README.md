@@ -39,7 +39,7 @@ The above command explained:
 - `URL_PREFIX` specifies a public URL (if applicable) you are serving your xPOPs on (mapped to this service)
 - `--build` at the end makes sure you rebuild your service container, to make sure you're running the latest version of this code
 
-##### Warning (in case of dockerk-compose errors)
+##### Warning (in case of docker-compose errors)
 
 If you're running an older version of docker-compose, you may need to update your compose binary:
 
