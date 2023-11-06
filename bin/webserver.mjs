@@ -84,11 +84,19 @@ if (!wss) {
 
       wss = expressWs(app)
 
-      // app.use(function middlware (req, res, next) {
-      //   return next()
-      // })
+      app.use(function middlware (req, res, next) {
+        res.setHeader('X-Robots-Tag', 'noindex')
+        return next()
+      })
 
-      app.use('/', 
+      app.use('/robots.txt', (req, res, next) => {
+        res.setHeader('content-type', 'text/plain')
+        return res.send(
+          `User-agent: *\nDisallow: /\n`
+        )
+      })
+
+      app.use('/',
         (req, res, next) => {
           if (process.env?.TELEMETRY === 'YES' && !req.url.match(/health/)) {
             const telemetryData = {
